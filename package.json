@@ -1,13 +1,16 @@
 {
-  "name": "build-your-first-production-quality-app",
+  "name": "BookStore",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "antd": "^4.21.7",
     "prop-types": "15.6.2",
-    "react": "16.5.2",
-    "react-dom": "16.5.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.3.0",
     "react-scripts": "1.0.17"
   },
+  "proxy": "http://localhost:4000",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
