@@ -1,49 +1,41 @@
 import * as React from 'react';
-import { ShoppingCartOutlined } from '@ant-design/icons';
-
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import {  Link } from "react-router-dom";
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Avatar from '@mui/material/Avatar';
-
 
 const HEADER_HEIGHT = 150
 const CART_ICON_SIZE = 80
 const Options = [
-    {label:'Home',key:'Home', },
-    {label:'Best Fit',key:'Best Fit', },
-    {label:'Join Newsletter', key:'Join Newsletter'}, 
-    {label:'Favorites',key:'Favorites' },
-    {label:'On Sales',key:'Sales' },
+    {label:'Home',key:'', },
+    {label:'Best Fit',key:'best-fit', },
+    {label:'Newsletter', key:'newsletter'}, 
+    {label:'Favorites',key:'favorites' },
+    {label:'On Sales',key:'sales' },
 ]
-function NavBar() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+export default function NavBar() {
   return (
-    <div style={{ height:HEADER_HEIGHT, width:'100wh', backgroundColor:'#5a7262', display:'flex', justifyContent:'space-between' }}>
-      <div style={{margin: 10, flexDirection:'row', display:'flex', flex: 6, justifyContent:'space-around', alignItems:'center'}}>
-            {Options.map(e => {
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        <Toolbar>
+          {Options.map(e => {
             return(
-            <Button
-              variant="contained"
-              style={{textTransform:'none', height: 60}}
-              onClick={handleClick}>
-                  {e.label}
-            </Button>)
-            })}
-      </div>
-      <div style={{margin: 10, display:'flex', flex: 1, justifyContent:'center', alignItems:'center'}}>
-        <Avatar>
-          <ShoppingCartOutlined sx={{ width: 56, height: 56 }}/>
-        </Avatar>
-      </div>
-    </div>
+              <Typography onClick={() => console.log(e.key)} noWrap variant="h6" component="div" sx={{ flexGrow: 1, maxWidth: 120 }}>
+                  <Link to={e.key}>{e.label}</Link>
+              </Typography>
+              )})}
+          <div style={{display:'flex', justifyContent:'flex-end', flexGrow: 1}}>
+            <Link to={"cart"}>
+              <Avatar>
+                <ShoppingCartIcon/>
+              </Avatar>
+              </Link>
+          </div>  
+        </Toolbar>
+      </AppBar>
+    </Box>
   );
 };
-export default NavBar;

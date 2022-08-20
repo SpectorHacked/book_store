@@ -1,9 +1,9 @@
 import React from 'react';
 import { Button, Checkbox, Form, Input } from 'antd';
 
-function LoginScreen(){
+function LoginScreen({setUser}){
     const onFinish = (values) => {
-        console.log('Success:', values);
+        setUser({username: values.username, password: values.password})
       };
     
       const onFinishFailed = (errorInfo) => {

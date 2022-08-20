@@ -11,33 +11,7 @@ import RegisterScreen from './Screens/RegisterScreen';
 import StoreScreen from './Screens/StoreScreen';
 import axios from 'axios';
 import { UserContext } from './Context/UserContext';
-
-
-import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
-import { Breadcrumb, Layout, Menu } from 'antd';
 import NavBar from './Components/NavBar';
-
-const { Header, Content, Sider } = Layout;
-const items1 = ['1', '2', '3'].map((key) => ({
-  key,
-  label: `nav ${key}`,
-}));
-const items2 = [UserOutlined, LaptopOutlined, NotificationOutlined].map((icon, index) => {
-  const key = String(index + 1);
-  return {
-    key: `sub${key}`,
-    icon: React.createElement(icon),
-    label: `subnav ${key}`,
-    children: new Array(4).fill(null).map((_, j) => {
-      const subKey = index * 4 + j + 1;
-      return {
-        key: subKey,
-        label: `option${subKey}`,
-      };
-    }),
-  };
-});
-
 
 export async function getDataFromServer(endpoint, query) {
   try {
@@ -58,43 +32,27 @@ export async function getDataFromServer(endpoint, query) {
 
 function App(props) {
 
-  const [cart, setCart] = useState([])
   const [user, setUser] = useState()
-  const [data, setData] = useState([])
-  useEffect(async() => {
-    const response = await getDataFromServer('/search',{filters: {}})
-    setData(response)
-    // console.log(response)
-  },[])
+  const [cart, setCart] = useState([])
+
+  if(true) { // Change here to get to the desired page
+    return <RegisterScreen setUser={setUser}/>
+    return <LoginScreen setUser={setUser}/>
+  } // Remove this to get to the actual app
 
   return (
+    <>
       <BrowserRouter>
         <UserContext.Provider value={user}>
+          <NavBar/>
           <Routes>
-              <Route path="/login" element={<LoginScreen setUser={setUser}/>}/>
-              <Route path="/register" element={<RegisterScreen setUser={setUser} />}/>
-              <Route path="/" element={<LayoutComponent data={data}/>}/>
-                {/* <AppBar/> */}
-                {/* <Route path="/cart">
-                  {user ? <CartScreen setCart={setCart} cart={cart}/> : <Navigate to={`/login`} />}
-                </Route>
-                <Route path="/">
-                  {user ? <StoreScreen setCart={setCart} cart={cart}/> : <Navigate to={`/login`} />}
-                </Route> */}
-              {/* </Route>   */}
+            <Route path="*" element={<StoreScreen />}/>
+            <Route path="cart" element={<CartScreen />}/>
           </Routes>
-        </UserContext.Provider>
+        </UserContext.Provider>  
       </BrowserRouter>
-  );
-}
-
-function LayoutComponent({data}) {
-  return(
-    <>
-      <NavBar/>
-      <StoreScreen data={data}/>
     </>
-  )
+  );
 }
 
 export default App;
