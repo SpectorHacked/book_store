@@ -18,7 +18,7 @@ const Options = [
 ]
 export default function NavBar() {
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1}}>
       <AppBar position="static">
         <Toolbar>
           {Options.map(e => {

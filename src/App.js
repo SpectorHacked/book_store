@@ -37,7 +37,7 @@ function App(props) {
 
   if(true) { // Change here to get to the desired page
     return <RegisterScreen setUser={setUser}/>
-    return <LoginScreen setUser={setUser}/>
+    //return <LoginScreen setUser={setUser}/>
   } // Remove this to get to the actual app
 
   return (
