@@ -10,7 +10,6 @@ import LoginScreen from './Screens/LoginScreen';
 import RegisterScreen from './Screens/RegisterScreen';
 import StoreScreen from './Screens/StoreScreen';
 import axios from 'axios';
-import { UserContext } from './Context/UserContext';
 import NavBar from './Components/NavBar';
 
 export async function getDataFromServer(endpoint, query) {
@@ -32,10 +31,13 @@ export async function getDataFromServer(endpoint, query) {
 
 function App(props) {
 
-  const [user, setUser] = useState()
+  const [user, setUser] = useState({})
   const [cart, setCart] = useState([])
 
-  if(true) { // Change here to get to the desired page
+  const signOut = () => {
+    setUser({})
+  }
+  if(!user) { // Change here to get to the desired page
     return <RegisterScreen setUser={setUser}/>
     //return <LoginScreen setUser={setUser}/>
   } // Remove this to get to the actual app
@@ -43,13 +45,11 @@ function App(props) {
   return (
     <>
       <BrowserRouter>
-        <UserContext.Provider value={user}>
-          <NavBar/>
+          <NavBar signOut={signOut} user={user} cartLength={cart.length}/>
           <Routes>
             <Route path="*" element={<StoreScreen />}/>
             <Route path="cart" element={<CartScreen />}/>
           </Routes>
-        </UserContext.Provider>  
       </BrowserRouter>
     </>
   );

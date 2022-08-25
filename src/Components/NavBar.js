@@ -16,7 +16,7 @@ const Options = [
     {label:'Favorites',key:'favorites' },
     {label:'On Sales',key:'sales' },
 ]
-export default function NavBar() {
+export default function NavBar({cartLength}) {
   return (
     <Box sx={{ flexGrow: 1}}>
       <AppBar position="static">
@@ -31,6 +31,7 @@ export default function NavBar() {
             <Link to={"cart"}>
               <Avatar>
                 <ShoppingCartIcon/>
+                {cartLength && <div style={{position:'absolute', bottom: 20, right: 20, paddin:10,borderRadius: 30}}>{cartLength}</div>}
               </Avatar>
               </Link>
           </div>  
