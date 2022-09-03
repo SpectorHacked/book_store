@@ -13,6 +13,7 @@ import axios from 'axios';
 import NavBar from './Components/NavBar';
 import BookDisplayScreen from './Screens/BookDisplayScreen';
 import FavoritesScreen from './Screens/FavoritesScreen';
+import AdminScreen from './Screens/AdminScreen';
 
 export async function getDataFromServer(endpoint, query) {
   try {
@@ -60,6 +61,7 @@ function App(props) {
             <Route path="*" element={<StoreScreen categories={categories} cart={cart} setCart={setCart}/>}/>
             <Route path="cart" element={<CartScreen cart={cart}/>}/>
             <Route path="favorites" element={<FavoritesScreen setCart={setCart} favorites={favorites} setFavorites={setFavorites} cart={cart}/>}/>
+            <Route path="admin" element={<AdminScreen />}/>
             <Route path="book/:isbn" element={<BookDisplayScreen setFavorites={setFavorites} favorites={favorites} cart={cart}/>}/>
           </Routes>
       </BrowserRouter>
