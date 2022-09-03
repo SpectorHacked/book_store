@@ -1,35 +1,32 @@
 import React from 'react';
 import { Button, Checkbox, Form, Input } from 'antd';
-/////
+import Logo from '../assets/logo.png'
 import Title from '../Components/Title';
-
-
-/*function RegisterScreen() {
-    return(
-        <div>
-            RegisterScreen
-        </div>
-    )*/
-
-
+import { getDataFromServer } from '../App';
+import { LIGHT_COLOR, DARK_COLOR } from '../constants'
 
 function RegisterScreen({setUser}){
-    const onFinish = (values) => {
-        setUser({username: values.username, password: values.password})
+    const onFinish = async(values) => {
+        const res = await getDataFromServer('/login', {username: values.username, password: values.password})
+        if(res.status === '200') {
+            if(values.remember) {
+                await AsyncStorage.setItem('user', res.data)
+            }
+            setUser(res.data)
+        } else {
+            onFinishFailed(res.data)
+        }
       };
     
       const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
+        alert(errorInfo)
       };
     return(
-        <div style={{display:'flex', flexDirection:'row',backgroundColor: '#E9E2CF', height:'100vh'}}>
-            <div style={{display:'flex', flex: 2, backgroundColor:'#5A7262', height:'100vh'}}>
-                <Title />
-            </div> 
-            
-                
-            
-            <div style={{display:'flex', flex: 1, justifyContent:'center',backgroundColor:'#E9E2CF', alignItems:'center'}}>
+        <div style={{display:'flex', flexDirection:'row',backgroundColor: LIGHT_COLOR, height:'100vh'}}>
+            <div style={{display:'flex', flex: 2, justifyContent:'center', alignItems:'center', height:'100vh', backgroundColor: DARK_COLOR}}>
+                <img src={Logo} alt="Logo" />
+            </div>
+            <div style={{display:'flex', flex: 1, justifyContent:'center',backgroundColor: LIGHT_COLOR, alignItems:'center'}}>
                 <Form 
                     name="basic" 
                     labelCol={{span: 8,}} 
@@ -37,7 +34,7 @@ function RegisterScreen({setUser}){
                     initialValues={{remember: true,}} 
                     onFinish={onFinish} 
                     onFinishFailed={onFinishFailed} 
-                    style={{justifyContent: 'center', color: "#5A7262",fontfamily: 'Times New Roman', fontSize: 22}}
+                    style={{justifyContent: 'center', color: DARK_COLOR,fontfamily: 'Times New Roman', fontSize: 22}}
                     autoComplete="off">
                       
                          <h1 style={{ flex: 1, textAlign: "center", fontSize: 75}}>Register</h1>

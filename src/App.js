@@ -11,35 +11,45 @@ import RegisterScreen from './Screens/RegisterScreen';
 import StoreScreen from './Screens/StoreScreen';
 import axios from 'axios';
 import NavBar from './Components/NavBar';
+import BookDisplayScreen from './Screens/BookDisplayScreen';
+import FavoritesScreen from './Screens/FavoritesScreen';
 
 export async function getDataFromServer(endpoint, query) {
   try {
     const res = await axios.get(endpoint, { params: query })
-    const data = res.data.data;
-    return data;
+    return {
+      data: res.data,
+      status: res.status
+    }
   } catch (e) {
     console.log("Error getting data from server")
-    console.error(e)
     return []
   }
 }
 
-// const filterMockup = {
-//   'status': ['MEAP'],
-//   'categories': ['Java']
-// }
-
 function App(props) {
-
   const [user, setUser] = useState({})
+  // const [user, setUser] = useState(getLocalStorage())
   const [cart, setCart] = useState([])
+  const [favorites, setFavorites] = useState([])
+  const [categories, setCategories] = useState([])
 
+
+  useEffect(() => {
+    const getCategories = async() => {
+      const res = await getDataFromServer('/categories')
+      if(res.data.data) {
+        setCategories(res.data.data)
+      }
+    }
+    getCategories()
+  }, [])
   const signOut = () => {
     setUser({})
   }
-  if(!user) { // Change here to get to the desired page
-    return <RegisterScreen setUser={setUser}/>
-    //return <LoginScreen setUser={setUser}/>
+  if(true) { // Change here to get to the desired page
+    // return <RegisterScreen setUser={setUser}/>
+    // return <LoginScreen setUser={setUser}/>
   } // Remove this to get to the actual app
 
   return (
@@ -47,12 +57,23 @@ function App(props) {
       <BrowserRouter>
           <NavBar signOut={signOut} user={user} cartLength={cart.length}/>
           <Routes>
-            <Route path="*" element={<StoreScreen />}/>
-            <Route path="cart" element={<CartScreen />}/>
+            <Route path="*" element={<StoreScreen categories={categories} cart={cart} setCart={setCart}/>}/>
+            <Route path="cart" element={<CartScreen cart={cart}/>}/>
+            <Route path="favorites" element={<FavoritesScreen setCart={setCart} favorites={favorites} setFavorites={setFavorites} cart={cart}/>}/>
+            <Route path="book/:isbn" element={<BookDisplayScreen setFavorites={setFavorites} favorites={favorites} cart={cart}/>}/>
           </Routes>
       </BrowserRouter>
     </>
   );
 }
 
+
+function getLocalStorage() {
+  return AsyncStorage.getItem('user')
+    .then((e) => e)
+    .catch((e) => {
+      console.log(e)
+      return {}
+    })
+}
 export default App;
