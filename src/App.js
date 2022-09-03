@@ -14,6 +14,9 @@ import NavBar from './Components/NavBar';
 import BookDisplayScreen from './Screens/BookDisplayScreen';
 import FavoritesScreen from './Screens/FavoritesScreen';
 import AdminScreen from './Screens/AdminScreen';
+import { getCookieLogin, BOOK_STORE_USER_COOKIE, removeCookie } from './functions';
+import _ from 'lodash'
+import BestSellersScreen from './Screens/BestSellersScreen';
 
 export async function getDataFromServer(endpoint, query) {
   try {
@@ -28,9 +31,14 @@ export async function getDataFromServer(endpoint, query) {
   }
 }
 
+function checkIfCookie() {
+  const res = getCookieLogin(BOOK_STORE_USER_COOKIE)
+  if(res) return res;
+  return {}
+}
+
 function App(props) {
-  const [user, setUser] = useState({})
-  // const [user, setUser] = useState(getLocalStorage())
+  const [user, setUser] = useState(checkIfCookie())
   const [cart, setCart] = useState([])
   const [favorites, setFavorites] = useState([])
   const [categories, setCategories] = useState([])
@@ -45,23 +53,25 @@ function App(props) {
     }
     getCategories()
   }, [])
+
   const signOut = () => {
+    removeCookie()
     setUser({})
   }
-  if(true) { // Change here to get to the desired page
-    // return <RegisterScreen setUser={setUser}/>
-    // return <LoginScreen setUser={setUser}/>
-  } // Remove this to get to the actual app
+  if(_.isEmpty(user)) { 
+    return <LoginScreen setUser={setUser}/>
+  } 
 
   return (
     <>
       <BrowserRouter>
           <NavBar signOut={signOut} user={user} cartLength={cart.length}/>
           <Routes>
-            <Route path="*" element={<StoreScreen categories={categories} cart={cart} setCart={setCart}/>}/>
-            <Route path="cart" element={<CartScreen cart={cart}/>}/>
-            <Route path="favorites" element={<FavoritesScreen setCart={setCart} favorites={favorites} setFavorites={setFavorites} cart={cart}/>}/>
-            <Route path="admin" element={<AdminScreen />}/>
+            <Route path="*" element={<StoreScreen favorites={favorites} setFavorites={setFavorites} categories={categories} cart={cart} setCart={setCart}/>}/>
+            <Route path="cart" element={<CartScreen setCart={setCart} cart={cart}/>}/>
+            <Route path="favorites" element={<FavoritesScreen cart={cart} setCart={setCart} favorites={favorites} setFavorites={setFavorites} cart={cart}/>}/>
+            <Route path="best-sellers" element={<BestSellersScreen cart={cart} setCart={setCart} favorites={favorites} setFavorites={setFavorites}/>}/>
+            <Route path="admin" element={<AdminScreen/>}/>
             <Route path="book/:isbn" element={<BookDisplayScreen setFavorites={setFavorites} favorites={favorites} cart={cart}/>}/>
           </Routes>
       </BrowserRouter>

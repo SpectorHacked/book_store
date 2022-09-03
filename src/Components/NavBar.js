@@ -10,24 +10,24 @@ import Logo from '../assets/logo.png'
 import { DARK_COLOR, LIGHT_COLOR, Options } from '../constants';
 import { Button } from '@mui/material';
 
-export default function NavBar({cartLength, signOut}) {
+export default function NavBar({signOut}) {
   return (
     <Box sx={{ flexGrow: 1}}>
       <AppBar position="static" style={{backgroundColor: DARK_COLOR}}>
         <div style={{display:'flex', justifyContent:'center'}}>
-          <img src={Logo} width={400} height={300}/>
+          <img src={Logo} width={340} height={'80%'}/>
         </div>
         <Toolbar>
           {Options.map((e,i) => {
             return(
-              <Typography key={i.toString()} noWrap variant="h5" component="div" sx={{ flexGrow: 1, maxWidth: 120, textDecoration: 'none'}}>
+              <Typography key={i.toString()} noWrap variant="h5" component="div" sx={{ flexGrow: 1, width: 10, textDecoration: 'none'}}>
                   <Link to={e.key} style={{color:LIGHT_COLOR, textDecoration: 'none'}}>{e.label}</Link>
               </Typography>
               )})}
           <div style={{display:'flex', justifyContent:'flex-end', flexGrow: 1}}>
             <Link to={"cart"}>
                 <Avatar sx={{backgroundColor:LIGHT_COLOR}}>
-                  {cartLength && <div style={{position:'absolute', top: 15, left: 23, padding: 1}}><b style={{fontSize: 17, color: 'blue', fontWeight:'700'}}>{cartLength}</b></div>}
+                  {/* {cartLength && <div style={{position:'absolute', top: 15, left: 23, padding: 1}}><b style={{fontSize: 17, color: 'blue', fontWeight:'700'}}>{cartLength}</b></div>} */}
                   <ShoppingCartIcon sx={{color: DARK_COLOR}}/>
                 </Avatar>
             </Link>

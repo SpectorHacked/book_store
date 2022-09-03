@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import AddShoppingCart from '@mui/icons-material/AddShoppingCart';
 import Avatar from '@mui/material/Avatar';
 import { DARK_COLOR, LIGHT_COLOR } from '../constants';
@@ -9,11 +9,12 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import { useTheme } from '@mui/material/styles';
 import OutlinedInput from '@mui/material/OutlinedInput';
+import { getDataFromServer } from '../App';
 
 function getStyles(name, categories, theme) {
   return {
     fontWeight:
-        categories.indexOf(name) === -1
+        (categories || []).indexOf(name) === -1
         ? theme.typography.fontWeightRegular
         : theme.typography.fontWeightMedium,
   };
@@ -36,29 +37,32 @@ const MenuProps = {
 // }
 
 
-const CategoriesFilter = ({options, setFilters}) => {
-  if(!options.length) return;
-  
+const CategoriesFilter = ({setCurrentCategory, categories}) => {
+  const [options, setOptions] = useState([])
   const theme = useTheme();
-  const [categories, setCategories] = useState([]);
+
   const handleChange = (value) => {
-    console.log(value)
-    const newValue = typeof value === 'string' ? value.split(',') : value
-    if(newValue.length) {
-      setCategories(newValue)
-      setFilters({ 'categories': newValue})
-    } else {
-      setCategories([])
-      setFilters({})
-    }
+    setCurrentCategory([value])
   };
+
+  useEffect(() => {
+    const getCategories = async() => {
+      const res = await getDataFromServer('/categories')
+      if(res.data.data) {
+        setOptions(res.data.data)
+      }
+    }
+    getCategories()
+  }, [])
+
+  if(!options.length) return;
+
 	return (
     <FormControl sx={{ width: '100%', height:'100%' }}>
       <InputLabel id="demo-multiple-name-label">Categories</InputLabel>
       <Select
           labelId="demo-multiple-name-label"
           id="demo-multiple-name"
-          multiple
           input={<OutlinedInput label="Categories" />}
           value={categories}
           onChange={(e) => handleChange(e.target.value)}
@@ -67,7 +71,7 @@ const CategoriesFilter = ({options, setFilters}) => {
             <MenuItem
               key={e}
               value={e}
-              style={getStyles(e, categories, theme)}
+              // style={getStyles(e, categories, theme)}
               MenuProps={MenuProps}
             >
               {e}

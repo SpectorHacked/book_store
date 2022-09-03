@@ -2,25 +2,27 @@ import React from 'react';
 import { Button, Checkbox, Form, Input } from 'antd';
 import Logo from '../assets/logo.png'
 import Title from '../Components/Title';
-import { getDataFromServer } from '../App';
 import { LIGHT_COLOR, DARK_COLOR } from '../constants'
 
 function RegisterScreen({setUser}){
     const onFinish = async(values) => {
-        const res = await getDataFromServer('/login', {username: values.username, password: values.password})
-        if(res.status === '200') {
-            if(values.remember) {
-                await AsyncStorage.setItem('user', res.data)
+        try {
+            const res = await axios.get('/register', {params: {user: values.username, pass: values.password, fullname: values.fullname}})
+            if(res.status == '200') {
+                if(values.remember) {
+                    setCookieLogin(res.data.data)
+                }
+                setUser(res.data.data)
+            } else {
+                onFinishFailed(res.data.data)
             }
-            setUser(res.data)
-        } else {
-            onFinishFailed(res.data)
+        } catch(res) {
+            alert(res.response.data.data)
         }
-      };
-    
-      const onFinishFailed = (errorInfo) => {
-        alert(errorInfo)
-      };
+    };
+    const onFinishFailed = (errorInfo) => {
+        console.log('Failed:', errorInfo);
+    };
     return(
         <div style={{display:'flex', flexDirection:'row',backgroundColor: LIGHT_COLOR, height:'100vh'}}>
             <div style={{display:'flex', flex: 2, justifyContent:'center', alignItems:'center', height:'100vh', backgroundColor: DARK_COLOR}}>

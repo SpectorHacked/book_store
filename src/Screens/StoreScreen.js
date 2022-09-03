@@ -12,7 +12,7 @@ import Pagination from '@mui/material/Pagination';
 import { LIGHT_COLOR } from '../constants';
 import CategoriesFilter from '../Components/CategoriesFilter';
 
-export default function StoreScreen({setCart, cart, categories, favorites}) {
+export default function StoreScreen({setCart, cart, categories, favorites, setFavorites}) {
     const [searchInput, setSearchInput] = useState("")
     const [page, setPage] = useState(1);
     const [resultsLength, setResultsLength] = useState(0)
@@ -29,16 +29,16 @@ export default function StoreScreen({setCart, cart, categories, favorites}) {
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)} label="Search" sx={{ width: '100%', backgroundColor: LIGHT_COLOR }}/>
         </Box>
-        <Box m={4}>
+        {/* <Box m={4}>
             <CategoriesFilter filters={filters} setFilters={setFilters} fullWidth options={categories}/>
-        </Box>
-        <Data favorites={favorites} cart={cart} setCart={setCart} setSkip={setSkip} setResultsLength={setResultsLength} page={page} skip={skip} search={searchInput} filters={filters}/>
+        </Box> */}
+        <Data setFavorites={setFavorites} favorites={favorites} cart={cart} setCart={setCart} setSkip={setSkip} setResultsLength={setResultsLength} page={page} skip={skip} search={searchInput} filters={filters}/>
         <PaginationControl page={page} resultsLength={resultsLength} setPage={setPage}/>
       </Container>
     )
 }
 
-function Data({search, filters, page, skip, cart, setCart, setResultsLength, setSkip, favorites}) {
+function Data({search, filters, page, skip, cart, setCart, setResultsLength, setSkip, favorites, setFavorites}) {
   const [data, setData] = useState([])
     
   useEffect(() => {
@@ -69,7 +69,7 @@ function Data({search, filters, page, skip, cart, setCart, setResultsLength, set
     <Box m={4} sx={{ flexGrow: 1 }}>
       <Stack direction={{ xs: "column", xwsm: "row" }} spacing={2}>
         <Grid container spacing={2}>
-          {data.map(singleBook => <SingleBook favorites={favorites} cart={cart} setCart={setCart} item={singleBook}/>)}
+          {data.map(singleBook => <SingleBook setFavorites={setFavorites} favorites={favorites} cart={cart} setCart={setCart} item={singleBook}/>)}
         </Grid>
       </Stack>
     </Box>

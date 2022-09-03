@@ -5,14 +5,15 @@ import Container from '@mui/material/Container';
 import Card from '@mui/material/Card';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import CardActions from '@mui/material/CardActions';
+import Button from '@mui/material/Button';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { Divider } from '@mui/material';
 import { DARK_COLOR, LIGHT_COLOR } from '../constants';
+import RemoveIcon from '../Components/RemoveIcon';
 
 
-function CartScreen({cart}) {
+function CartScreen({cart, setCart}) {
     const [totalPrice, setTotalPrice] = useState(0)
     useEffect(() => {
         const price = cart.map(item => item?.pageCount)
@@ -21,13 +22,18 @@ function CartScreen({cart}) {
         }
     },[cart])
 
+    function removeFromCart(index) {
+        cart.splice(index, 1)
+        const newCart = [...cart]
+        setCart(newCart)
+    }
     return(
         <Box>
             <Paper>
                 <Grid container>
                     <Grid item xs={8}>
                         <Box display={"flex"} justifyContent="center" flexDirection={'column'} alignItems="center">
-                            {cart.map((e, i) => <SingleItem key={i.toString()} item={e}/>)}
+                            {cart.map((e, i) => <SingleItem index={i} removeFromCart={removeFromCart} key={i.toString()} item={e}/>)}
                         </Box>
                     </Grid>
                     <Grid item xs={4}>
@@ -66,7 +72,7 @@ function Checkout({totalPrice, items}) {
         </Card>
     )
 }
-function SingleItem({item}) {
+function SingleItem({item, removeFromCart, index}) {
     const {title, thumbnailUrl, status,  authors, categories, isbn, pageCount, longDescription, shortDescription} = item
     return(
         <Card sx={{ minWidth: 680,maxWidth: 900, display:'flex', flexDirection:'row', backgroundColor: LIGHT_COLOR, margin: 2 }}>
@@ -85,10 +91,13 @@ function SingleItem({item}) {
                 <Typography variant="body2">
                     {shortDescription}
                 </Typography>
-                <div style={{display:'flex', justifyContent:'flex-end'}}>
+                <div style={{display:'flex', justifyContent:'flex-end', flexDirection:'row'}}>
                     <Typography variant="h6">
                         Price: {pageCount}$
                     </Typography>
+                    <Button onClick={() => removeFromCart(index)}>
+                        <RemoveIcon/>
+                    </Button>
                 </div>
             </CardContent>
         </Card>

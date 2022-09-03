@@ -2,24 +2,28 @@ import React from 'react';
 import { Button, Checkbox, Form, Input } from 'antd';
 import Logo from '../assets/logo.png'
 import { DARK_COLOR, LIGHT_COLOR } from '../constants';
+import { setCookieLogin } from '../functions';
+import axios from 'axios'
 
 function LoginScreen({setUser}){
     // Todo: handle failed login
     const onFinish = async(values) => {
-        const res = await getDataFromServer('/login', {username: values.username, password: values.password})
-        if(res.status === '200') {
-            if(values.remember) {
-                await AsyncStorage.setItem('user', res.data)
+        try {
+            const res = await axios.get('/login', {params: {user: values.username, pass: values.password}})
+            if(res.status == '200') {
+                setCookieLogin(res.data.data, values.remember)
+                setUser(res.data.data)
+            } else {
+                onFinishFailed(res.data.data)
             }
-            setUser(res.data)
-        } else {
-            onFinishFailed(res.data)
+        } catch(res) {
+            console.log(res)
+            alert(res.response.data.data)
         }
     };
-    
-      const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
-      };
+    const onFinishFailed = (errorInfo) => {
+        alert(errorInfo);
+    };
     return(
         <div style={{display:'flex', flexDirection:'row', height:'100vh'}}>
             <div style={{display:'flex', flex: 2, justifyContent:'center', alignItems:'center', height:'100vh', backgroundColor: DARK_COLOR}}>

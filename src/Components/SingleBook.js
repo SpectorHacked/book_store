@@ -14,10 +14,15 @@ import InfoIcon from './InfoIcon';
 
 const IMAGE_HEIGHT = 180
 
-export default function SingleBook({item, setCart, cart, setFavorites, favorites}) {
+export default function SingleBook({item, setCart, cart, setFavorites, favorites, gridSize=4}) {
   const {title, thumbnailUrl, status,  authors, categories, isbn, pageCount, longDescription, shortDescription} = item
+  function handleFavoritesClick() {
+    const newArray = [...favorites, item]
+    console.log(newArray)
+    setFavorites(newArray)
+  }
   return (
-    <Grid item xs={4}>
+    <Grid item xs={gridSize}>
         <Card sx={{ maxWidth: 350, minHeight: 600, backgroundColor: LIGHT_COLOR }}>
             <CardMedia
                 component="img"
@@ -44,7 +49,7 @@ export default function SingleBook({item, setCart, cart, setFavorites, favorites
                 <Button variant="primary" size="small" onClick={() => setCart([...cart, item])}>
                     <AddShoppingIcon/>
                 </Button>
-                <Button variant="primary" size="small" onClick={() => setFavorites([...favorites, item])}>
+                <Button variant="primary" size="small" onClick={() => handleFavoritesClick()}>
                     <FavoritesIcon/>
                 </Button>
             </CardActions>

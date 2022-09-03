@@ -8,10 +8,8 @@ import Box from '@mui/material/Box';
 
 export default function AdminScreen({}) {
     return(
-        <Container fixed>
-            <Box m={4} sx={{ flexGrow: 1 }}>
-                
-            </Box>
+        <Container fixed style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+            
         </Container>
       )
 }
