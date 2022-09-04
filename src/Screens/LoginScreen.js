@@ -4,6 +4,9 @@ import Logo from '../assets/logo.png'
 import { DARK_COLOR, LIGHT_COLOR } from '../constants';
 import { setCookieLogin } from '../functions';
 import axios from 'axios'
+import RegisterScreen from './RegisterScreen';
+import { Navigate } from 'react-router';
+
 
 function LoginScreen({setUser}){
     // Todo: handle failed login
@@ -54,6 +57,9 @@ function LoginScreen({setUser}){
                                 </Button>
                         </Form.Item>
                 </Form>
+                <Navigate to="/register">
+                    Register
+                </Navigate>
             </div>
         </div>
     )

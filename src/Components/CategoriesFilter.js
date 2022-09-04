@@ -1,24 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import AddShoppingCart from '@mui/icons-material/AddShoppingCart';
-import Avatar from '@mui/material/Avatar';
-import { DARK_COLOR, LIGHT_COLOR } from '../constants';
-import { Autocomplete } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
-import { useTheme } from '@mui/material/styles';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { getDataFromServer } from '../App';
-
-function getStyles(name, categories, theme) {
-  return {
-    fontWeight:
-        (categories || []).indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
-}
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -31,15 +17,8 @@ const MenuProps = {
   },
 };
 
-// const filterMockup = {
-//   'status': ['MEAP'],
-//   'categories': ['Java']
-// }
-
-
 const CategoriesFilter = ({setCurrentCategory, categories}) => {
   const [options, setOptions] = useState([])
-  const theme = useTheme();
 
   const handleChange = (value) => {
     setCurrentCategory([value])
@@ -61,8 +40,6 @@ const CategoriesFilter = ({setCurrentCategory, categories}) => {
     <FormControl sx={{ width: '100%', height:'100%' }}>
       <InputLabel id="demo-multiple-name-label">Categories</InputLabel>
       <Select
-          labelId="demo-multiple-name-label"
-          id="demo-multiple-name"
           input={<OutlinedInput label="Categories" />}
           value={categories}
           onChange={(e) => handleChange(e.target.value)}
@@ -71,7 +48,6 @@ const CategoriesFilter = ({setCurrentCategory, categories}) => {
             <MenuItem
               key={e}
               value={e}
-              // style={getStyles(e, categories, theme)}
               MenuProps={MenuProps}
             >
               {e}

@@ -6,11 +6,10 @@ import SingleBook from '../Components/SingleBook';
 import SearchIcon from '@mui/icons-material/Search';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { Autocomplete, TextField } from '@mui/material';
+import { TextField } from '@mui/material';
 import { getDataFromServer } from '../App';
 import Pagination from '@mui/material/Pagination';
 import { LIGHT_COLOR } from '../constants';
-import CategoriesFilter from '../Components/CategoriesFilter';
 
 export default function StoreScreen({setCart, cart, categories, favorites, setFavorites}) {
     const [searchInput, setSearchInput] = useState("")
@@ -29,9 +28,6 @@ export default function StoreScreen({setCart, cart, categories, favorites, setFa
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)} label="Search" sx={{ width: '100%', backgroundColor: LIGHT_COLOR }}/>
         </Box>
-        {/* <Box m={4}>
-            <CategoriesFilter filters={filters} setFilters={setFilters} fullWidth options={categories}/>
-        </Box> */}
         <Data setFavorites={setFavorites} favorites={favorites} cart={cart} setCart={setCart} setSkip={setSkip} setResultsLength={setResultsLength} page={page} skip={skip} search={searchInput} filters={filters}/>
         <PaginationControl page={page} resultsLength={resultsLength} setPage={setPage}/>
       </Container>
@@ -69,7 +65,7 @@ function Data({search, filters, page, skip, cart, setCart, setResultsLength, set
     <Box m={4} sx={{ flexGrow: 1 }}>
       <Stack direction={{ xs: "column", xwsm: "row" }} spacing={2}>
         <Grid container spacing={2}>
-          {data.map(singleBook => <SingleBook setFavorites={setFavorites} favorites={favorites} cart={cart} setCart={setCart} item={singleBook}/>)}
+          {data.map((singleBook, i) => <SingleBook isFavorite={favorites.includes(singleBook)} key={i.toString()} setFavorites={setFavorites} favorites={favorites} cart={cart} setCart={setCart} item={singleBook}/>)}
         </Grid>
       </Stack>
     </Box>

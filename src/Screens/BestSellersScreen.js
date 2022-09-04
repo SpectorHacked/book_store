@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import SingleBook from '../Components/SingleBook';
@@ -14,7 +13,6 @@ export default function BestSellersScreen({favorites, setFavorites, cart, setCar
 
     useEffect(() => {
         const getProducts = async () => {
-        
             try {
                 if(currentCategory.length) {
                     const res = await getDataFromServer('/best-sellers',{ params: {currentCategory}})

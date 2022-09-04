@@ -22,6 +22,7 @@ function RegisterScreen({setUser}){
     };
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
+        alert(errorInfo)
     };
     return(
         <div style={{display:'flex', flexDirection:'row',backgroundColor: LIGHT_COLOR, height:'100vh'}}>

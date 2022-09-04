@@ -12,7 +12,7 @@ export default function FavoritesScreen({favorites, setFavorites, cart, setCart}
             <Box m={4} sx={{ flexGrow: 1 }}>
                 <Stack direction={{ xs: "column", xwsm: "row" }} spacing={2}>
                     <Grid container spacing={2}>
-                        {favorites.map((singleBook, i) => <SingleBook key={i.toString()} favorites={favorites} setFavorites={setFavorites} cart={cart} setCart={setCart} item={singleBook}/>)}
+                        {favorites.map((singleBook, i) => <SingleBook isFavorite={true} key={i.toString()} favorites={favorites} setFavorites={setFavorites} cart={cart} setCart={setCart} item={singleBook}/>)}
                     </Grid>
                 </Stack>
             </Box>

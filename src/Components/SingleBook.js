@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -14,13 +14,22 @@ import InfoIcon from './InfoIcon';
 
 const IMAGE_HEIGHT = 180
 
-export default function SingleBook({item, setCart, cart, setFavorites, favorites, gridSize=4}) {
+export default function SingleBook({item, setCart, cart, setFavorites, favorites, gridSize=4, isFavorite}) {
   const {title, thumbnailUrl, status,  authors, categories, isbn, pageCount, longDescription, shortDescription} = item
   function handleFavoritesClick() {
-    const newArray = [...favorites, item]
-    console.log(newArray)
+    let newArray;
+    if(isFavorite) {
+        newArray = favorites.filter(e => e.isbn !== isbn)
+    } else {
+        newArray = [...favorites, item]
+    }
     setFavorites(newArray)
   }
+
+  function handleCartClick() {
+    setCart([...cart, item])
+  }
+  
   return (
     <Grid item xs={gridSize}>
         <Card sx={{ maxWidth: 350, minHeight: 600, backgroundColor: LIGHT_COLOR }}>
@@ -46,11 +55,11 @@ export default function SingleBook({item, setCart, cart, setFavorites, favorites
                         <InfoIcon/>
                     </Link>
                 </Button>
-                <Button variant="primary" size="small" onClick={() => setCart([...cart, item])}>
+                <Button variant="primary" size="small" onClick={() => handleCartClick()}>
                     <AddShoppingIcon/>
                 </Button>
                 <Button variant="primary" size="small" onClick={() => handleFavoritesClick()}>
-                    <FavoritesIcon/>
+                    <FavoritesIcon isFavorite={isFavorite}/>
                 </Button>
             </CardActions>
         </Card>
