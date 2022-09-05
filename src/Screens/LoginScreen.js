@@ -56,7 +56,7 @@ function LoginScreen({setUser, moveToScreen}){
                                 <Checkbox>Remember me</Checkbox>
                             </Form.Item>
                                 <Form.Item wrapperCol={{offset: 8,span: 16,}}>
-                                    <Button type="primary" htmlType="submit">
+                                <Button style={{textAlign: "center", backgroundColor:'#5A7262', fontSize: 22, color: "#E9E2CF"}} type="primary" htmlType="submit">
                                         Submit
                                     </Button>
                             </Form.Item>

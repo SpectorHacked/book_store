@@ -26,7 +26,7 @@ const CategoriesFilter = ({setCurrentCategory,currentCategory}) => {
   if(!options.length) return;
 
 	return (
-    <FormControl sx={{ width: '100%', height:'100%' }}>
+    <FormControl sx={{ width: '100%', height:'100%', backgroundColor: "#E9E2CF"}}>
       <InputLabel id="demo-multiple-name-label">Categories</InputLabel>
       <Select
           input={<OutlinedInput label="Categories" />}

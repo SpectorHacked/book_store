@@ -7,7 +7,7 @@ export const Options = [
     {label:'Home',key:'', },
     {label:'Best Sellers',key:'best-sellers', },
     {label:'Favorites',key:'favorites' },
-    {label:'Newspaper',key:'newspaper' },
+    {label:'Newsletter',key:'Newsletter' },
 ]
 
 export const CATEGORIES_OPTIONS = [

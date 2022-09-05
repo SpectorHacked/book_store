@@ -33,7 +33,7 @@ export default function BestSellersScreen({favorites, setFavorites, cart, setCar
             <Container fixed sx={{marginBottom: 10}}>
                 <CategoriesFilter setCurrentCategory={setCurrentCategory} currentCategory={currentCategory} fullWidth />
             </Container>
-            <Stack direction={{ xs: "column", xwsm: "row" }} spacing={2}>
+            <Stack direction={{ xs: "column", xwsm: "row"}} spacing={2}>
                 <Grid container spacing={2}>
                     {data.map((singleBook, i) => <SingleBook isFavorite={favorites.includes(singleBook)} gridSize={3} key={i.toString()} favorites={favorites} setFavorites={setFavorites} cart={cart} setCart={setCart} item={singleBook}/>)}
                 </Grid>

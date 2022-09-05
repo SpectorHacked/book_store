@@ -1,0 +1,30 @@
+.readme {
+    width: 100%;
+    background-color: #e9e2cf;
+    margin: 0;
+}
+
+
+.readme_content {
+    font-family: 'Courier New', monospace;
+    font-size: 18px;
+    color: #5A7262;
+    font-weight: bold;
+    text-align: center;
+    display: block;
+    margin-left: 10%;
+    margin-right: 10%;
+    line-height: 120%;
+    word-spacing: normal;
+}
+
+.title {
+    background-color: #5A7262;
+    background-size: auto;
+    font-family: 'Brush Script MT', cursive;
+    font-size: 60px;
+    letter-spacing: 4px;
+    color: #e9e2cf;
+    text-align: center;
+    text-shadow: 3px 3px #829e8b;
+}

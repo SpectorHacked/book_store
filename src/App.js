@@ -20,8 +20,9 @@ import Snackbar from '@mui/material/Snackbar';
 import RegisterScreen from './Screens/RegisterScreen';
 import { ADD_ITEM_TO_CART_LOG, LOGOUT_LOG } from './constants';
 import AuthControl from './Screens/AuthControl';
-import NewspaperScreen from './Screens/NewspaperScreen';
+import NewsletterScreen from './Screens/NewsletterScreen';
 import { CART_KEY, FAVORITES_KEY, getLocalByKey, removeLocalByKey, updateLocalItems } from './persist';
+import Readme from './Screens/readmeScreen';
 
 export async function getDataFromServer(endpoint, query) {
   try {
@@ -97,9 +98,10 @@ function App() {
           <Routes>
             <Route path="*" element={<StoreScreen favorites={favorites} setFavorites={handleAddToFavorites} categories={categories} cart={cart} setCart={handleAddCartClick}/>}/>
             <Route path="cart" element={<CartScreen user={user} setCart={handleAddCartClick} cart={cart}/>}/>
-            <Route path="favorites" element={<FavoritesScreen cart={cart} setCart={handleAddCartClick} favorites={favorites} setFavorites={handleAddToFavorites} cart={cart}/>}/>
+            <Route path="favorites" element={<FavoritesScreen cart={cart} setCart={handleAddCartClick} favorites={favorites} setFavorites={handleAddToFavorites}/>}/>
             <Route path="best-sellers" element={<BestSellersScreen cart={cart} setCart={handleAddCartClick} favorites={favorites} setFavorites={handleAddToFavorites}/>}/>
-            <Route path="newspaper" element={<NewspaperScreen />}/>
+            <Route path="Newsletter" element={<NewsletterScreen/>}/>
+            <Route path="readme.html" element={<Readme/>}/>
             <Route path="admin" element={<AdminScreen user={user}/>}/>
             <Route path="book/:isbn" element={<BookDisplayScreen setFavorites={handleAddToFavorites} favorites={favorites} cart={cart}/>}/>
           </Routes>
