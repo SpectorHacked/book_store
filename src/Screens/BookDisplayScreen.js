@@ -34,11 +34,7 @@ function BookDisplayScreen({favorites, setFavorites}) {
                 <Grid item xs={9}>
                     <Card sx>
                         <div
-                            style={{
-                            display: "flex",
-                            alignItem: "center",
-                            justifyContent: "center"
-                            }}
+                            style={{...centerObjectCSS}}
                         >
                         <CardMedia
                             style={{maxWidth: 500}}

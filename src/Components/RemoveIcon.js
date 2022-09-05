@@ -3,7 +3,7 @@ import Delete from '@mui/icons-material/Delete';
 import Avatar from '@mui/material/Avatar';
 import { DARK_COLOR, LIGHT_COLOR } from '../constants';
 
-const RemoveIcon = (props) => {
+const RemoveIcon = () => {
 	return (
 		<Avatar sx={{backgroundColor:LIGHT_COLOR}}>
 			<Delete sx={{color: DARK_COLOR}}/>

@@ -6,18 +6,7 @@ import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { getDataFromServer } from '../App';
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
-const CategoriesFilter = ({setCurrentCategory, categories}) => {
+const CategoriesFilter = ({setCurrentCategory,currentCategory}) => {
   const [options, setOptions] = useState([])
 
   const handleChange = (value) => {
@@ -41,14 +30,13 @@ const CategoriesFilter = ({setCurrentCategory, categories}) => {
       <InputLabel id="demo-multiple-name-label">Categories</InputLabel>
       <Select
           input={<OutlinedInput label="Categories" />}
-          value={categories}
+          value={currentCategory}
           onChange={(e) => handleChange(e.target.value)}
         >
           {options.map((e) => (
             <MenuItem
               key={e}
               value={e}
-              MenuProps={MenuProps}
             >
               {e}
             </MenuItem>

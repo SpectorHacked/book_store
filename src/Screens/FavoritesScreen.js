@@ -9,6 +9,7 @@ import Box from '@mui/material/Box';
 export default function FavoritesScreen({favorites, setFavorites, cart, setCart}) {
     return(
         <Container fixed>
+            <h1 style={{ flex: 1, textAlign: "center", fontSize: 75}}>Favorites</h1>
             <Box m={4} sx={{ flexGrow: 1 }}>
                 <Stack direction={{ xs: "column", xwsm: "row" }} spacing={2}>
                     <Grid container spacing={2}>

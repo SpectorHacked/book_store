@@ -7,23 +7,27 @@ import {  Link } from "react-router-dom";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Avatar from '@mui/material/Avatar';
 import Logo from '../assets/logo.png'
-import { DARK_COLOR, LIGHT_COLOR, Options } from '../constants';
+import { centerObjectCSS, DARK_COLOR, LIGHT_COLOR, Options } from '../constants';
 import { Button } from '@mui/material';
 
-export default function NavBar({signOut}) {
+export default function NavBar({signOut, user}) {
   return (
     <Box sx={{ flexGrow: 1}}>
       <AppBar position="static" style={{backgroundColor: DARK_COLOR}}>
-        <div style={{display:'flex', justifyContent:'center'}}>
+        <div style={{...centerObjectCSS}}>
           <img src={Logo} width={340} height={'80%'}/>
         </div>
         <Toolbar>
           {Options.map((e,i) => {
             return(
-              <Typography key={i.toString()} noWrap variant="h5" component="div" sx={{ flexGrow: 1, width: 10, textDecoration: 'none'}}>
+              <Typography key={i.toString()} noWrap variant="h4" component="div" sx={{ flexGrow: 1, width: 4, textDecoration: 'none'}}>
                   <Link to={e.key} style={{color:LIGHT_COLOR, textDecoration: 'none'}}>{e.label}</Link>
               </Typography>
               )})}
+          {user?.isAdmin && 
+              <Typography key={'admin'} noWrap variant="h4" component="div" sx={{ flexGrow: 1, width: 4, textDecoration: 'none'}}>
+                  <Link to={'/admin'} style={{color:LIGHT_COLOR, textDecoration: 'none'}}>Admin</Link>
+              </Typography>}
           <div style={{display:'flex', justifyContent:'flex-end', flexGrow: 1}}>
             <Link to={"cart"}>
                 <Avatar sx={{backgroundColor:LIGHT_COLOR}}>

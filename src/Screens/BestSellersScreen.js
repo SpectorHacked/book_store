@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
+import Container from '@mui/material/Container';
 import SingleBook from '../Components/SingleBook';
 import Box from '@mui/material/Box';
-import { getDataFromServer } from '../App';
 import CategoriesFilter from '../Components/CategoriesFilter';
+import axios from 'axios';
 
 
 export default function BestSellersScreen({favorites, setFavorites, cart, setCart}) {
@@ -15,7 +16,7 @@ export default function BestSellersScreen({favorites, setFavorites, cart, setCar
         const getProducts = async () => {
             try {
                 if(currentCategory.length) {
-                    const res = await getDataFromServer('/best-sellers',{ params: {currentCategory}})
+                    const res = await axios.get('/best-sellers',{ params: {currentCategory: currentCategory}})
                     setData(res.data.data)
                 }
             } catch (error) {
@@ -28,17 +29,15 @@ export default function BestSellersScreen({favorites, setFavorites, cart, setCar
 
 
     return(
-            <Box m={10} sx={{ flexGrow: 1 }}>
-                <Grid container m={10}>
-                    <Grid item xs={9}>
-                        <CategoriesFilter setCurrentCategory={setCurrentCategory} fullWidth />
-                    </Grid>
+        <Box m={10} sx={{ flexGrow: 1 }}>
+            <Container fixed sx={{marginBottom: 10}}>
+                <CategoriesFilter setCurrentCategory={setCurrentCategory} currentCategory={currentCategory} fullWidth />
+            </Container>
+            <Stack direction={{ xs: "column", xwsm: "row" }} spacing={2}>
+                <Grid container spacing={2}>
+                    {data.map((singleBook, i) => <SingleBook isFavorite={favorites.includes(singleBook)} gridSize={3} key={i.toString()} favorites={favorites} setFavorites={setFavorites} cart={cart} setCart={setCart} item={singleBook}/>)}
                 </Grid>
-                <Stack direction={{ xs: "column", xwsm: "row" }} spacing={2}>
-                    <Grid container spacing={2}>
-                        {data.map((singleBook, i) => <SingleBook gridSize={3} key={i.toString()} favorites={favorites} setFavorites={setFavorites} cart={cart} setCart={setCart} item={singleBook}/>)}
-                    </Grid>
-                </Stack>
-            </Box>
+            </Stack>
+        </Box>
       )
 }

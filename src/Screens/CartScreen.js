@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import Container from '@mui/material/Container';
 import Card from '@mui/material/Card';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
@@ -19,17 +18,19 @@ function CartScreen({cart, setCart}) {
         const price = cart.map(item => item?.pageCount)
         if(cart.length) {
             setTotalPrice(price.reduce((prev, next) => prev + next))
+        } else {
+            setTotalPrice(0)
         }
     },[cart])
 
     function removeFromCart(index) {
         cart.splice(index, 1)
         const newCart = [...cart]
-        setCart(newCart)
+        setCart(newCart, false)
     }
     return(
         <Box>
-            <Paper>
+            <Paper style={{paddingBottom: 50}}>
                 <Grid container>
                     <Grid item xs={8}>
                         <Box display={"flex"} justifyContent="center" flexDirection={'column'} alignItems="center">
@@ -37,11 +38,9 @@ function CartScreen({cart, setCart}) {
                         </Box>
                     </Grid>
                     <Grid item xs={4}>
-                        <Box>
-                            <Paper elevation={3} sx={{display:'flex', justifyContent:'center', alignItems:'center',maxWidth: 500, marginTop: 2, marginBottom: 2}}>
-                                <Checkout items={cart} totalPrice={totalPrice}/>
-                            </Paper>
-                        </Box>
+                        <Paper elevation={3} sx={{display:'flex', justifyContent:'center', alignItems:'center',maxWidth: 500, marginTop: 2,height:'100%'}}>
+                            <Checkout items={cart} totalPrice={totalPrice}/>
+                        </Paper>
                     </Grid>
                 </Grid>
             </Paper>
@@ -51,8 +50,8 @@ function CartScreen({cart, setCart}) {
 
 function Checkout({totalPrice, items}) {
     return(
-        <Card sx={{width:"100%", backgroundColor:LIGHT_COLOR, minHeight: 200}}>
-            <div style={{marginLeft: 4, marginTop: 10, marginBottom: 10}}>
+        <Card sx={{width:"100%", backgroundColor:LIGHT_COLOR, minHeight: 100, height:'100%'}}>
+            <div style={{marginLeft: 4, marginTop: 10, marginBottom: 5}}>
                 <b style={{fontSize: 23, color:'black'}}>Checkout</b>
             </div>
             <Divider sx={{marginBottom: 1}}/>
@@ -79,7 +78,6 @@ function SingleItem({item, removeFromCart, index}) {
             <div style={{ display: "flex", alignItem: "center", justifyContent: "center"}}>
             <CardMedia
                 component="img"
-                he
                 image={thumbnailUrl}
                 alt={title}
                 />

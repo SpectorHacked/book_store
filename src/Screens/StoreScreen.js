@@ -9,9 +9,9 @@ import Typography from '@mui/material/Typography';
 import { TextField } from '@mui/material';
 import { getDataFromServer } from '../App';
 import Pagination from '@mui/material/Pagination';
-import { LIGHT_COLOR } from '../constants';
+import { centerObjectCSS, LIGHT_COLOR } from '../constants';
 
-export default function StoreScreen({setCart, cart, categories, favorites, setFavorites}) {
+export default function StoreScreen({setCart, cart, favorites, setFavorites}) {
     const [searchInput, setSearchInput] = useState("")
     const [page, setPage] = useState(1);
     const [resultsLength, setResultsLength] = useState(0)
@@ -64,7 +64,7 @@ function Data({search, filters, page, skip, cart, setCart, setResultsLength, set
   return(
     <Box m={4} sx={{ flexGrow: 1 }}>
       <Stack direction={{ xs: "column", xwsm: "row" }} spacing={2}>
-        <Grid container spacing={2}>
+        <Grid sx={{...centerObjectCSS}} container spacing={2}>
           {data.map((singleBook, i) => <SingleBook isFavorite={favorites.includes(singleBook)} key={i.toString()} setFavorites={setFavorites} favorites={favorites} cart={cart} setCart={setCart} item={singleBook}/>)}
         </Grid>
       </Stack>
@@ -75,7 +75,7 @@ function Data({search, filters, page, skip, cart, setCart, setResultsLength, set
 function PaginationControl({page, setPage, resultsLength}) {
   return(
     <Box m={4}>
-      <Container sx={{justifyContent:'center', display:'flex'}}>
+      <Container sx={{...centerObjectCSS}}>
         <Stack spacing={2}>
           <Typography>Page: {page}</Typography>
           <Pagination count={Math.round(resultsLength/9)} page={page} onChange={(e, value) => setPage(value)} />
