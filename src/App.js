@@ -66,6 +66,10 @@ function App() {
     getPersist()
   }, [])
 
+  if(_.isEmpty(user)) { 
+    return <AuthControl setUser={setUser}/>
+  } 
+
   const signOut = async() => {
     addLogActivity(LOGOUT_LOG, user.id)
     await removeLocalByKey(CART_KEY)
@@ -73,14 +77,11 @@ function App() {
     removeCookie()
     setUser({})
   }
-  if(_.isEmpty(user)) { 
-    return <AuthControl setUser={setUser}/>
-  } 
 
   async function handleAddCartClick(array) {
     addLogActivity(ADD_ITEM_TO_CART_LOG, user.id)
     await updateLocalItems(CART_KEY, array)
-    if(cart.length !== array.length) {
+    if(cart.length !== array.length && cart.length) {
       setShowToast(!showToast)
     }
     setCart(array)
@@ -95,7 +96,7 @@ function App() {
           <NavBar signOut={signOut} user={user} cartLength={cart.length}/>
           <Routes>
             <Route path="*" element={<StoreScreen favorites={favorites} setFavorites={handleAddToFavorites} categories={categories} cart={cart} setCart={handleAddCartClick}/>}/>
-            <Route path="cart" element={<CartScreen setCart={handleAddCartClick} cart={cart}/>}/>
+            <Route path="cart" element={<CartScreen user={user} setCart={handleAddCartClick} cart={cart}/>}/>
             <Route path="favorites" element={<FavoritesScreen cart={cart} setCart={handleAddCartClick} favorites={favorites} setFavorites={handleAddToFavorites} cart={cart}/>}/>
             <Route path="best-sellers" element={<BestSellersScreen cart={cart} setCart={handleAddCartClick} favorites={favorites} setFavorites={handleAddToFavorites}/>}/>
             <Route path="newspaper" element={<NewspaperScreen />}/>

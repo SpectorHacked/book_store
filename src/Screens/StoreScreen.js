@@ -16,7 +16,6 @@ export default function StoreScreen({setCart, cart, favorites, setFavorites}) {
     const [page, setPage] = useState(1);
     const [resultsLength, setResultsLength] = useState(0)
     const [skip, setSkip] = useState(0);
-    const [filters, setFilters] = useState({})
 
     return(
       <Container fixed>
@@ -28,19 +27,19 @@ export default function StoreScreen({setCart, cart, favorites, setFavorites}) {
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)} label="Search" sx={{ width: '100%', backgroundColor: LIGHT_COLOR }}/>
         </Box>
-        <Data setFavorites={setFavorites} favorites={favorites} cart={cart} setCart={setCart} setSkip={setSkip} setResultsLength={setResultsLength} page={page} skip={skip} search={searchInput} filters={filters}/>
+        <Data setFavorites={setFavorites} favorites={favorites} cart={cart} setCart={setCart} setSkip={setSkip} setResultsLength={setResultsLength} page={page} skip={skip} search={searchInput} />
         <PaginationControl page={page} resultsLength={resultsLength} setPage={setPage}/>
       </Container>
     )
 }
 
-function Data({search, filters, page, skip, cart, setCart, setResultsLength, setSkip, favorites, setFavorites}) {
+function Data({search,  page, skip, cart, setCart, setResultsLength, setSkip, favorites, setFavorites}) {
   const [data, setData] = useState([])
     
   useEffect(() => {
     const searchProduct = async () => {
       try {
-          const res = await getDataFromServer('/search',{filters, search, skip})
+          const res = await getDataFromServer('/search',{filters: {}, search, skip})
           if(Array.isArray(res.data.data)) {
             setData(res.data.data)
             setResultsLength(res.data.resultsLength)
@@ -59,7 +58,7 @@ function Data({search, filters, page, skip, cart, setCart, setResultsLength, set
          }
         };
          searchProduct();
-  }, [search, page, filters]);
+  }, [search, page]);
 
   return(
     <Box m={4} sx={{ flexGrow: 1 }}>

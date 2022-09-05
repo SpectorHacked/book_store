@@ -8,11 +8,12 @@ import Button from '@mui/material/Button';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { Divider } from '@mui/material';
-import { DARK_COLOR, LIGHT_COLOR } from '../constants';
+import { centerObjectCSS, DARK_COLOR, LIGHT_COLOR } from '../constants';
 import RemoveIcon from '../Components/RemoveIcon';
+import axios from 'axios';
 
 
-function CartScreen({cart, setCart}) {
+function CartScreen({cart, setCart, user}) {
     const [totalPrice, setTotalPrice] = useState(0)
     useEffect(() => {
         const price = cart.map(item => item?.pageCount)
@@ -28,6 +29,21 @@ function CartScreen({cart, setCart}) {
         const newCart = [...cart]
         setCart(newCart, false)
     }
+
+    async function handleCartBuy() {
+        try {
+            const res = await axios.get('/submit-purchase', {params: { cart, userId: user.id }})
+            if(res.status == 200) {
+                alert("Your order is on the way")
+                setCart([])
+            } else {
+                alert("Something went wrong")
+            }
+        } catch(e) {
+            console.log(e)
+            alert("Something went wrong")
+        }
+    }
     return(
         <Box>
             <Paper style={{paddingBottom: 50}}>
@@ -39,7 +55,7 @@ function CartScreen({cart, setCart}) {
                     </Grid>
                     <Grid item xs={4}>
                         <Paper elevation={3} sx={{display:'flex', justifyContent:'center', alignItems:'center',maxWidth: 500, marginTop: 2,height:'100%'}}>
-                            <Checkout items={cart} totalPrice={totalPrice}/>
+                            <Checkout handleCartBuy={handleCartBuy} items={cart} totalPrice={totalPrice}/>
                         </Paper>
                     </Grid>
                 </Grid>
@@ -48,7 +64,7 @@ function CartScreen({cart, setCart}) {
     )
 }
 
-function Checkout({totalPrice, items}) {
+function Checkout({totalPrice, items, handleCartBuy}) {
     return(
         <Card sx={{width:"100%", backgroundColor:LIGHT_COLOR, minHeight: 100, height:'100%'}}>
             <div style={{marginLeft: 4, marginTop: 10, marginBottom: 5}}>
@@ -67,6 +83,11 @@ function Checkout({totalPrice, items}) {
             <div style={{margin: 4, display:'flex', flexDirection:'row', justifyContent:'space-between', alignItems:'center'}}>
                 <b style={{fontSize: 16, color: 'black'}}>Total</b>
                 <Typography sx={{color:'gray', fontSize: 23}}>{totalPrice}$</Typography>
+            </div>
+            <div style={{...centerObjectCSS}}>
+                <Button sx={{backgroundColor:'green'}} variant="contained" onClick={() => handleCartBuy()}>
+                        Buy
+                </Button>
             </div>
         </Card>
     )
