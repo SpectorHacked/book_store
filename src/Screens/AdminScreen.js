@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import { Grid, Paper, TextField, Tooltip } from '@mui/material';
-import { ADMIN_ITEM_SKELETON, ADMIN_TITLES, centerObjectCSS, DARK_COLOR } from '../constants';
+import { ADMIN_COLUMNS, ADMIN_ITEM_SKELETON, ADMIN_TITLES, centerObjectCSS, DARK_COLOR } from '../constants';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
@@ -9,6 +9,7 @@ import Info from '@mui/icons-material/Info';
 import { normalizeBook } from '../functions';
 import MuiAlert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
+import { DataGrid } from '@mui/x-data-grid';
 
 export default function AdminScreen({user}) {
     if(!user?.isAdmin) {
@@ -55,6 +56,7 @@ export default function AdminScreen({user}) {
     useEffect(() => {
         const getActivityFromServer = async () => {
               const res = await axios.get('/admin-get-activities')
+              console.log(res.data.data)
               setActivity(res.data.data)
         }
         getActivityFromServer();
@@ -114,11 +116,12 @@ function FieldInput({handleChange, label, value, path}) {
 
 function ActivityTable({data}) {
     return(
-        // <DataGrid
-        //     rows={data}
-        //     columns={columns}
-        //     rowsPerPageOptions={10}
-        // />
-        <div>Table</div>
+        <div style={{ height: 400, width: '100%' }}>
+            <DataGrid
+                rows={data}
+                columns={ADMIN_COLUMNS}
+                pageSize={10}
+            />
+        </div>
     )
 } 

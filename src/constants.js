@@ -22,16 +22,17 @@ export const centerObjectCSS = {
 
 export const ADMIN_COLUMNS = [
     {
-        label: "Activity type",
-        key: "type"
+        headerName: "Activity type",
+        field: "type"
     },
     {
-        label: "User Id",
-        key: "id"
+        headerName: "User Id",
+        field: "id"
     },
     {
-        label: "Time",
-        key: "time"
+        headerName: "Time",
+        field: "time", 
+        width: 300
     },
 ]
 
