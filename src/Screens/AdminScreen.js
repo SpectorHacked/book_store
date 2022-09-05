@@ -56,8 +56,10 @@ export default function AdminScreen({user}) {
     useEffect(() => {
         const getActivityFromServer = async () => {
               const res = await axios.get('/admin-get-activities')
-              console.log(res.data.data)
-              setActivity(res.data.data)
+              if(res.data.data) {
+                const array = res.data.data;
+                setActivity(array.map((e, id) => ({...e, id})))
+              }
         }
         getActivityFromServer();
       }, []);

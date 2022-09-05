@@ -22,12 +22,16 @@ export const centerObjectCSS = {
 
 export const ADMIN_COLUMNS = [
     {
-        headerName: "Activity type",
-        field: "type"
+        headerName: "ID",
+        field: "id"
     },
     {
         headerName: "User Id",
-        field: "id"
+        field: "userId"
+    },
+    {
+        headerName: "Activity type",
+        field: "type"
     },
     {
         headerName: "Time",
