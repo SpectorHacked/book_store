@@ -82,7 +82,7 @@ function App() {
   async function handleAddCartClick(array) {
     addLogActivity(ADD_ITEM_TO_CART_LOG, user.id)
     await updateLocalItems(CART_KEY, array)
-    if(cart.length !== array.length && cart.length) {
+    if(cart.length !== array.length && array.length) {
       setShowToast(!showToast)
     }
     setCart(array)
